@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Http\Requests\PostRequest;
 
 /**
  * Post一覧を表示する
@@ -32,6 +33,18 @@ class PostController extends Controller
     {
         return view('posts.show')->with(['post' => $post]);
         //'post'はbladeファイルで使う変数。中身の$postはid=1のPostインスタンス。
+    }
+    
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    public function store(Post $post, PostRequest $request)
+    {
+        $input = $request['post'];
+        $post->fill($input)->save();
+        return redirect('/posts/' . $post->id);
     }
 }
 ?>
